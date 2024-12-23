@@ -20,6 +20,6 @@ else:
 # Copy library to output path
 print("Copying required files to build folder...")
 lib_ext = 'dll' if os.name == 'nt' else 'so'
-shutil.copyfile("ext/tremble_lib/target/{}/tremble_lib.{}".format(config, lib_ext), "out/bin/TrembleEngine/{}/tremble_lib.{}".format(config, lib_ext))
+shutil.copyfile("ext/tremble_lib/target/{}/tremble.{}".format(config, lib_ext), "out/bin/TrembleEngine/{}/tremble.{}".format(config, lib_ext))
 
 print("Build completed successfully")

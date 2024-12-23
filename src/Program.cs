@@ -1,8 +1,12 @@
-﻿class Program
+﻿using CsBindgen;
+
+class Program
 {
     static void Main(string[] args)
     {
-        // Display the number of command line arguments.
-        Console.WriteLine("lmao");
+        var res = NativeMethods.tr_initialize();
+        Console.WriteLine("Library initialized with: " + res);
+        NativeMethods.tr_test();
+        NativeMethods.tr_shutdown();
     }
 }

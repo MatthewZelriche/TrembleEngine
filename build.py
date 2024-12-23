@@ -12,7 +12,10 @@ args = parser.parse_args()
 config = args.config or "debug"
 
 subprocess.run(["dotnet", "build", "--configuration", "{}".format(config)])
-subprocess.run(["cargo", "build", "--manifest-path", "ext/tremble_lib/Cargo.toml"])
+if config == "release":
+   subprocess.run(["cargo", "build", "--manifest-path", "ext/tremble_lib/Cargo.toml", "--release"])
+else:
+   subprocess.run(["cargo", "build", "--manifest-path", "ext/tremble_lib/Cargo.toml"])
 
 # Copy library to output path
 print("Copying required files to build folder...")

@@ -4,9 +4,15 @@ class Program
 {
     static void Main(string[] args)
     {
-        var res = NativeMethods.tr_initialize();
-        Console.WriteLine("Library initialized with: " + res);
+        if (NativeMethods.tr_initialize() != TrembleError.Success)
+        {
+            Console.WriteLine("A fatal error occured when initializing the TrembleLib");
+            return;
+        }
+
         NativeMethods.tr_test();
+        Log.Info("Hello, world!");
+
         NativeMethods.tr_shutdown();
     }
 }

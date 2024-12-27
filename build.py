@@ -13,10 +13,15 @@ args = parser.parse_args()
 config = args.config or "debug"
 
 # Build rust lib first, as C# project relies on C# bindings to already exist
+# TODO: Put this in its own build script for trembleLib
+f = open("ext/tremble_lib/src/error/expanded.g.rs", 'w+')
+subprocess.run(["cargo", "expand", "--manifest-path", "ext/tremble_lib/Cargo.toml", "--release", "--features", "disable_gen", "error"], stdout=f)
 if config == "release":
    subprocess.run(["cargo", "build", "--manifest-path", "ext/tremble_lib/Cargo.toml", "--release"])
 else:
    subprocess.run(["cargo", "build", "--manifest-path", "ext/tremble_lib/Cargo.toml"])
+
+# Now build the CSharp project
 subprocess.run(["dotnet", "build", "--configuration", "{}".format(config)])
 
 # Copy library to output path

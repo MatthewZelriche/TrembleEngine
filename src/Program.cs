@@ -10,9 +10,17 @@ class Program
             return;
         }
 
-        NativeMethods.tr_test();
         Log.Info("Hello, world!");
+        // Test creating a second window
+        ulong id = 0;
+        unsafe
+        {
+            NativeMethods.tr_create_window(&id);
+        }
 
+        while (NativeMethods.tr_tick()) { }
+
+        Log.Info("Goodbye, world!");
         NativeMethods.tr_shutdown();
     }
 }

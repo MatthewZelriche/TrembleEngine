@@ -5,23 +5,48 @@ using CsBindgen;
 // TODO: Investigate performance
 public class Log
 {
-
-    public static void Info(string msg, [CallerFilePath] string filepath = "", [CallerLineNumber] uint line = 0)
+    public static void Info(
+        string msg,
+        [CallerFilePath] string filepath = "",
+        [CallerLineNumber] uint line = 0
+    )
     {
-        unsafe { Print(msg, filepath, line, &NativeMethods.tr_info); }
+        unsafe
+        {
+            Print(msg, filepath, line, &NativeMethods.info);
+        }
     }
 
-    public static void Warn(string msg, [CallerFilePath] string filepath = "", [CallerLineNumber] uint line = 0)
+    public static void Warn(
+        string msg,
+        [CallerFilePath] string filepath = "",
+        [CallerLineNumber] uint line = 0
+    )
     {
-        unsafe { Print(msg, filepath, line, &NativeMethods.tr_warn); }
+        unsafe
+        {
+            Print(msg, filepath, line, &NativeMethods.warn);
+        }
     }
 
-    public static void Error(string msg, [CallerFilePath] string filepath = "", [CallerLineNumber] uint line = 0)
+    public static void Error(
+        string msg,
+        [CallerFilePath] string filepath = "",
+        [CallerLineNumber] uint line = 0
+    )
     {
-        unsafe { Print(msg, filepath, line, &NativeMethods.tr_error); }
+        unsafe
+        {
+            Print(msg, filepath, line, &NativeMethods.error);
+        }
     }
 
-    private static unsafe void Print(string msg, string filename, uint line, delegate*<byte*, uint, byte*, void> printMethod)
+    private static unsafe void Print(
+        string msg,
+        string filename,
+        uint line,
+        delegate* <byte*, uint, byte*, void> printMethod
+    )
     {
         {
             var filenameutf8 = Encoding.UTF8.GetBytes(Path.GetFileName(filename + "\0"));
@@ -29,7 +54,10 @@ public class Log
 
             unsafe
             {
-                fixed (byte* msg_ptr = msgutf8, filename_ptr = filenameutf8)
+                fixed (
+                    byte* msg_ptr = msgutf8,
+                        filename_ptr = filenameutf8
+                )
                 {
                     printMethod(filename_ptr, line, msg_ptr);
                 }
